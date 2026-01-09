@@ -1,0 +1,35 @@
+{
+  "name": "@wwa/wpscan-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server for the WPScan (wpscan.com) API",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "wpscan-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint",
+    "start": "bun run src/index.ts",
+    "start:node": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "generate-types": "openapi-typescript https://wpscan.com/docs/api/v3/v3.yml/ -o src/wpscan/wpscan.d.ts",
+    "prepare": "bun run generate-types",
+    "compile": "bun build --compile --bytecode --outfile=wpscan-mcp src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "openapi-fetch": "^0.15.0",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@automattic/eslint-plugin-wpvip": "^1.1.1",
+    "@types/node": "^25.0.3",
+    "openapi-typescript": "^7.10.1",
+    "prettier": "npm:wp-prettier@3.0.3"
+  },
+  "keywords": ["mcp", "wpscan", "wordpress", "vulnerability", "scanner"],
+  "author": "Volodymyr Kolesnykov <volodymyr@wildwolf.name> (https://wildwolf.name/)",
+  "license": "MIT"
+}
