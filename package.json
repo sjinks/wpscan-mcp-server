@@ -15,7 +15,6 @@
     "start:node": "node dist/index.js",
     "typecheck": "tsc --noEmit",
     "generate-types": "openapi-typescript https://wpscan.com/docs/api/v3/v3.yml/ -o src/wpscan/wpscan.d.ts",
-    "prepare": "bun run generate-types",
     "compile": "bun build --compile --bytecode --outfile=wpscan-mcp src/index.ts"
   },
   "dependencies": {
