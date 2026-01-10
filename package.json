@@ -1,6 +1,6 @@
 {
   "name": "@wwa/wpscan-mcp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MCP server for the WPScan (wpscan.com) API",
   "type": "module",
   "main": "dist/index.js",
@@ -27,7 +27,13 @@
     "openapi-typescript": "^7.10.1",
     "prettier": "npm:wp-prettier@3.0.3"
   },
-  "keywords": ["mcp", "wpscan", "wordpress", "vulnerability", "scanner"],
+  "keywords": [
+    "mcp",
+    "wpscan",
+    "wordpress",
+    "vulnerability",
+    "scanner"
+  ],
   "author": "Volodymyr Kolesnykov <volodymyr@wildwolf.name> (https://wildwolf.name/)",
   "license": "MIT",
   "publishConfig": {
