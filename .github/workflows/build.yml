@@ -94,5 +94,3 @@ jobs:
           files: docker-bake.hcl
           push: false
           no-cache: ${{ github.event_name == 'workflow_dispatch' }}
-        env:
-          SOURCE_DATE_EPOCH: 0
