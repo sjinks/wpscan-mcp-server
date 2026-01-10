@@ -35,7 +35,7 @@ jobs:
 
   typecheck:
     runs-on: ubuntu-latest
-    name: Lint Codebase
+    name: Run Type Check
     permissions:
       contents: read
     steps:
