@@ -1,0 +1,116 @@
+name: Publish Package
+
+on:
+  release:
+    types:
+      - released
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish-npm:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+      id-token: write
+    steps:
+      - name: Set commit status to PENDING
+        uses: myrotvorets/set-commit-status-action@3730c0a348a2ace3c110851bed53331bc6406e9f # v2.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+          context: Publish to npm
+          sha: ${{ github.sha }}
+
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Set up Node.js environment
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          registry-url: https://registry.npmjs.org/
+
+      - name: Update npm
+        run: sudo npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build MCP Server
+        run: npm run build
+
+      - name: Publish package
+        run: npm publish
+
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@3730c0a348a2ace3c110851bed53331bc6406e9f # v2.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          context: Publish to npm
+          sha: ${{ github.sha }}
+        if: always()
+
+  publish-docker:
+    name: Publish Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+      packages: write
+    steps:
+      - name: Set commit status to PENDING
+        uses: myrotvorets/set-commit-status-action@3730c0a348a2ace3c110851bed53331bc6406e9f # v2.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+          context: Publish to ghcr.io
+          sha: ${{ github.sha }}
+
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+
+      - name: Log in to Docker Registry
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Set tag name
+        run: |
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          echo "TAG_NAME=${TAG_NAME#v}" >> "${GITHUB_ENV}"
+
+      - name: Build Docker image
+        uses: docker/bake-action@5be5f02ff8819ecd3092ea6b2e6261c31774f2b4 # v6.10.0
+        with:
+          files: docker-bake.hcl
+          push: true
+          no-cache: ${{ github.event_name == 'workflow_dispatch' }}
+          provenance: true
+          sbom: true
+          set: |
+            *.tags+=ghcr.io/sjinks/wpscan-mcp-server:${{ env.TAG_NAME }}
+            *.output=type=image,push=true,rewrite-timestamp=true
+        env:
+          SOURCE_DATE_EPOCH: 0
+
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@3730c0a348a2ace3c110851bed53331bc6406e9f # v2.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          context: Publish to ghcr.io
+          sha: ${{ github.sha }}
+        if: always()
