@@ -1,6 +1,6 @@
 {
   "name": "@wwa/wpscan-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for the WPScan (wpscan.com) API",
   "type": "module",
   "main": "dist/index.js",
