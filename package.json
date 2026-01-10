@@ -42,5 +42,9 @@
   },
   "files": [
     "dist/**/*.js"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjinks/wpscan-mcp-server.git"
+  }
 }
