@@ -30,5 +30,9 @@
   },
   "keywords": ["mcp", "wpscan", "wordpress", "vulnerability", "scanner"],
   "author": "Volodymyr Kolesnykov <volodymyr@wildwolf.name> (https://wildwolf.name/)",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }
