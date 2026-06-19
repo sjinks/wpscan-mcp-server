@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@automattic/eslint-plugin-wpvip": "^1.1.1",
-    "@types/node": "^25.0.3",
+    "@types/node": "^26.0.0",
     "openapi-typescript": "^7.10.1",
     "prettier": "npm:wp-prettier@3.0.3"
   },
