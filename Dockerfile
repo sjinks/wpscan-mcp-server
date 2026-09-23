@@ -8,7 +8,7 @@ COPY . .
 RUN ["bun", "run", "compile"]
 RUN ["apk", "add", "--no-cache", "libstdc++"]
 
-FROM dhi.io/alpine-base:3.23@sha256:e20d44909ce0684a7b064bf4038dcd83f6dd27c27de7668e144f0ecd17e3e6a5
+FROM dhi.io/alpine-base:3.24@sha256:b18ee573885f54237cd93329a542d526a5aeed79463e5d1f759c4f09269f2ab9
 COPY --from=build /app/wpscan-mcp /usr/local/bin/wpscan-mcp
 COPY --from=build /usr/lib/libgcc_s.* /usr/lib/libstdc++.* /usr/lib/
 ENTRYPOINT [ "/usr/local/bin/wpscan-mcp" ]
