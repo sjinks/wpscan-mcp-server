@@ -1,4 +1,4 @@
-FROM dhi.io/bun:1-alpine3.23-dev@sha256:95429cef64f4f84562878670a88ae19985f43dbaa7c6f502cc9770d4a80ce94a AS build
+FROM dhi.io/bun:1-alpine3.23-dev@sha256:24d640e660dc63a554d4689b4b4facc652223eaeb6eb97cb51a6c5713e0c09ae AS build
 
 WORKDIR /app
 COPY package.json bun.lock ./
